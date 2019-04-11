@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ejercicio 1</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function validate_numerico(inputValue, nombre_campo, caracteres, decimales=0){
+            if (inputValue.length != caracteres) {
+                alert(`El campo ${nombre_campo} debe contener ${caracteres} digitos.`);
+                return false;
+            }
+            if (inputValue.indexOf(".") == -1 && decimales != 0 || decimales != 0 && inputValue.indexOf(".") != (inputValue.length - 3)){
+                alert(`El campo ${nombre_campo} debe contener ${decimales} decimales.`)
+                return false;
+            }
+            return true;
+        }
+        function validate_alfabetico(inputValue, nombre_campo, caracteres){
+            if (inputValue.length != caracteres) {
+                alert(`El campo ${nombre_campo} debe contener ${caracteres} caracteres.`);
+                return false;
+            }
+            if (!/^[a-zA-Z]+$/.test(inputValue)){
+                alert(`El campo ${nombre_campo} debe contener solo caracteres alfabeticos`);
+                return false;
+            }
+            return true;
+        }
+        function validate_cuit(inputValue){
+            if (inputValue.length != 13) {
+                alert("El cuit debe contener 13 digitos.");
+                return false;
+            }
+            if (inputValue['2'] != '-' || inputValue['10'] != '-') {
+                alert("El cuit debe tener el formato 99-999999999-99");
+                return false;
+            }
+            return true;
+        }
+        function validate_form(form){
+            let send = true;
+            for (let i = 0 ; i < form.elements.length; i++) {
+                switch(form.elements[i].name) {
+                  case "codigo_cliente":
+                    if (!validate_numerico(form.elements[i].value, "Codigo Cliente", 5)){
+                        send = false;
+                    }
+                    break;
+                  case "razon_social":
+                    if (!validate_alfabetico(form.elements[i].value, "Razon social", 30)){
+                        send = false;
+                    }
+                    break;
+                  case "cuit":
+                    if (!validate_cuit(form.elements[i].value)){
+                        send = false;
+                    }
+                    break;
+                  case "provincia":
+                    if (!validate_alfabetico(form.elements[i].value, "Provincia", 14)){
+                        send = false;
+                    }
+                    break;
+                  case "limite_credito":
+                    if (!validate_numerico(form.elements[i].value, "Limite de Credito", 10, 2)){
+                        send = false;
+                    }
+                    break;
+                }
+            }
+            if (send){
+                alert("Se enviara el formulario");
+                form.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="./index.html">Ejercicio 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="./ejercicio2.html">Ejercicio 2</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="./ejercicio3.html">Ejercicio 3</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="./ejercicio4.html">Ejercicio 4</a>
+    </li>
+  </ul>
+</nav>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-1"></div>
+            <div class="col-10 bg-light">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="jumbotron">
+                            <h1 class="display-4">Auditoria y calidad de sistemas</h1>
+                            <p class="lead">TP2 - EJ 1</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <form class="form-group" id="formulario">
+                            <p>CODIGO CLIENTE</p>
+                            <input type="number" name="codigo_cliente" max="99999" min="00" placeholder="12345" class="form-control">
+                            <p>RAZÓN SOCIAL</p>
+                            <input type="text" name="razon_social" maxlength="30" class="form-control">
+                            <p>CUIT</p>
+                            <input type="text" name="cuit" placeholder="99-99999999-9" class="form-control">
+                            <p>FECHA</p>
+                            <input type="date" name="fecha" placeholder="99/99/9999" class="form-control">
+                            <p>FECHA DE ULTIMO PEDIDO</p>
+                            <input type="date" name="fecha_ultimo_pedido" placeholder="99/99/9999" class="form-control">
+                            <p>PROVINCIA</p>
+                            <input type="text" name="provincia" maxlength="15" class="form-control">
+                            <p>LIMITE DE CREDITO</p>
+                            <input type="number" name="limite_credito" max="9999999999" min="0" class="form-control">
+                            <input type="button" onclick="validate_form(this.form)" class="btn btn-outline-dark mt-3" value="Enviar">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
